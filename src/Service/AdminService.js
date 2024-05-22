@@ -1,6 +1,18 @@
 import axios from "axios";
 import {BACKEND_BASE_URL} from "../Constant/globalConst";
 
+
+export const authenticateUser = (data) => {
+    return axios.post(BACKEND_BASE_URL + "/admin/auth/login",data).then((response) => {
+        if (response.status === 200) {
+            // return response.data;
+            return response;
+        }
+    }).catch(() => {
+        console.error("Failed to login ");
+    });
+};
+
 export const getAllOrderData = () => {
     return axios.get(BACKEND_BASE_URL + "/admin").then((response) => {
         if (response.status === 200) {
