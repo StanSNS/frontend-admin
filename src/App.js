@@ -2,18 +2,32 @@ import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom'
 import React from 'react'
 import Admin from "./Component/Admin/Admin";
 import Page404 from "./Component/Errors/Page404/Page404";
-import Page500 from "./Component/Errors/Page500/Page500";
 import Login from "./Component/Auth/Login";
+import {isAdministrator, isUserAuthenticated} from "./Service/AuthService";
 
 function App() {
+
+    function Logged({element}) {
+        if (isUserAuthenticated() && isAdministrator()) {
+            return <Navigate to="/"/>
+        }
+        return element;
+    }
+
+    function NotLogged({element}) {
+        if (!isUserAuthenticated() || !isAdministrator()) {
+            return <Navigate to="/admin/auth/login"/>
+        }
+        return element;
+    }
+
     return (
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/auth/admin/login" element={<Login/>}/>
-                    <Route path="/" element={<Admin/>}/>
+                    <Route path="/admin/auth/login" element={<Logged element={<Login/>}/>}/>
+                    <Route path="/" element={<NotLogged element={<Admin/>}/>}/>
                     <Route path="/page-not-found" element={<Page404/>}/>
-                    <Route path="/internal-server-error" element={<Page500/>}/>
                     <Route path="*" element={<Navigate to="/page-not-found"/>}/>
                 </Routes>
             </BrowserRouter>

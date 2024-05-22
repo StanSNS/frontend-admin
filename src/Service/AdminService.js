@@ -1,17 +1,16 @@
 import axios from "axios";
 import {BACKEND_BASE_URL} from "../Constant/globalConst";
+import {getToken} from "./AuthService";
 
-
-export const authenticateUser = (data) => {
-    return axios.post(BACKEND_BASE_URL + "/admin/auth/login",data).then((response) => {
-        if (response.status === 200) {
-            // return response.data;
-            return response;
-        }
-    }).catch(() => {
-        console.error("Failed to login ");
-    });
-};
+axios.interceptors.request.use(
+    function (config) {
+        config.headers['Authorization'] = "Bearer " + getToken();
+        return config;
+    },
+    function (error) {
+        return Promise.reject(error);
+    }
+);
 
 export const getAllOrderData = () => {
     return axios.get(BACKEND_BASE_URL + "/admin").then((response) => {

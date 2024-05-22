@@ -1,12 +1,13 @@
 import React, {useState} from 'react'
 import './Login.css'
 import {Button} from "react-bootstrap";
-import {authenticateUser} from "../../Service/AdminService";
+import {authenticateUser} from "../../Service/AuthService";
 
 function Login() {
     const [isLoginCardVisible, setIsLoginCardVisible] = useState(false);
-    const [user, setUser] = useState('');
-    const [password, setPassword] = useState('');
+    const [user, setUser] = useState('admin');
+    const [password, setPassword] = useState('admin');
+
     const handleToggleChange = () => {
         setIsLoginCardVisible(!isLoginCardVisible);
     };
@@ -24,9 +25,7 @@ function Login() {
             username: user,
             password: password
         };
-
-        const dataResponse = await authenticateUser(data)
-
+        await authenticateUser(data)
     };
 
     return (
