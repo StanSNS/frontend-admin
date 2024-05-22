@@ -1,13 +1,22 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+  --myGreenBlue: #00ff93;
+  --myBlack: #333333;
+  --myWhite: #ffffff;
+  --myRed: orangered;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.myGreenBlueColor {
+  color: var(--myGreenBlue);
+}
+
+.myBlackColor {
+  color: var(--myBlack);
+}
+
+.myWhiteColor {
+  color: var(--myWhite);
+}
+
+.myRedColor {
+  color: var(--myRed);
 }

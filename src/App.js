@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom'
+import React from 'react'
+import Admin from "./Component/Admin/Admin";
+import Page404 from "./Component/Errors/Page404/Page404";
+import Page500 from "./Component/Errors/Page500/Page500";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/admin" element={<Admin/>}/>
+                    <Route path="/page-not-found" element={<Page404/>}/>
+                    <Route path="/internal-server-error" element={<Page500/>}/>
+                    <Route path="*" element={<Navigate to="/page-not-found"/>}/>
+                </Routes>
+            </BrowserRouter>
+        </>
+    );
 }
 
 export default App;

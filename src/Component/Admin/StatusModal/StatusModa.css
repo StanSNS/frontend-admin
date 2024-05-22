@@ -1,0 +1,27 @@
+.pending {
+    color: #FFD700 !important;
+}
+
+.approved {
+    color: #00CED1 !important;
+}
+
+.in-delivery {
+    color: #1E90FF !important;
+}
+
+.completed {
+    color: #00FF00 !important;
+}
+
+.canceled {
+    color: #FF6347 !important;
+}
+
+.statuModalBody{
+    height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
