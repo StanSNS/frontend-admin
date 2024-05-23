@@ -53,7 +53,6 @@ export function emptyAuthorization() {
     deleteCookie();
     deleteToken();
     deleteAdditionalData()
-    window.location.href = "/admin/auth/login"
 }
 
 function setCookie(value, milliseconds) {
