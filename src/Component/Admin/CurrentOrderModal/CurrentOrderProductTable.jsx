@@ -60,10 +60,9 @@ function CurrentOrderProductTable({order}) {
                 </div>
 
                 <Dropdown>
-                    <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                    <Dropdown.Toggle variant="dark" id="dropdown-basic" className="fw-bold fs-5">
                         Sort By
                     </Dropdown.Toggle>
-
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={() => handleSortByChange("id")}>
                             ID

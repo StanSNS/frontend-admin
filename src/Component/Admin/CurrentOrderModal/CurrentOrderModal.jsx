@@ -1,28 +1,55 @@
-import React, {useEffect} from "react";
-import {Modal} from "react-bootstrap";
-import CurrentOrderProductTable from "../CurrentOrderProductModal/CurrentOrderProductTable";
-import {FaBuilding, FaCity, FaEnvelope, FaGlobeAmericas, FaUser} from "react-icons/fa";
+import React from "react";
+import {Button, Modal} from "react-bootstrap";
+import CurrentOrderProductTable from "./CurrentOrderProductTable";
+import {FaCity, FaEnvelope, FaGlobeAmericas, FaUser} from "react-icons/fa";
 import {FaPhoneVolume} from "react-icons/fa6";
 import {IoIosPin} from "react-icons/io";
+import {createOrderInSpeedy} from "../../../Service/AdminService";
 
 function CurrentOrderModal({show, onHide, selectedOrder}) {
+    const createOrderInSpeedyFunc = async () => {
+        const officeID = selectedOrder.addressInfo.officeID
+        const amountToBePayedByAdmin = selectedOrder.amountToBePayedByAdmin
+        const amountToBePayedByCustomer = selectedOrder.amountToBePayedByCustomer
+        const randomNumber = selectedOrder.randomNumber
+        const totalWeight = selectedOrder.totalWeight
+        const email = selectedOrder.userInfo.email
+        const firstName = selectedOrder.userInfo.firstName
+        const lastName = selectedOrder.userInfo.lastName
+        const phone = selectedOrder.userInfo.phone
 
-    useEffect(() => {
-        console.log(selectedOrder);
-    })
+        const body = {
+            officeID,
+            amountToBePayedByAdmin,
+            amountToBePayedByCustomer,
+            randomNumber,
+            totalWeight,
+            email,
+            firstName,
+            lastName,
+            phone,
+        }
+
+        const data = await createOrderInSpeedy(body)
+
+        console.log(data)
+
+    };
 
     return (
         <Modal show={show} onHide={onHide} className="modal-xl">
             <Modal.Header>
-                <Modal.Title>Details for order: #{selectedOrder?.randomNumber}</Modal.Title>
+                <Modal.Title>
+                    Details for order: #{selectedOrder?.randomNumber}
+                </Modal.Title>
+
+                <Button variant={"dark"} className="fs-5 fw-bold" onClick={() => createOrderInSpeedyFunc()}>
+                    Create order in speedy
+                </Button>
             </Modal.Header>
             <Modal.Body>
                 <div className="orderInfo">
                     <div className="orderUserInfo">
-                        <h5 className="me-2 fw-bolder">
-                            <FaUser className="mb-1 me-1 myRedColor"/>User Info:
-                        </h5>
-
                         <span className="fw-bolder mt-2">
                                 <span className="keyColorInfo me-2">
                                     <FaUser className="mb-1 me-1 myRedColor"/>Име:
@@ -61,10 +88,6 @@ function CurrentOrderModal({show, onHide, selectedOrder}) {
                     </div>
 
                     <div className="orderAddressInfo">
-                        <h5 className="me-2 fw-bolder">
-                            <FaBuilding className="mb-1 me-1 myRedColor"/>Address Info:
-                        </h5>
-
                         <span className="fw-bolder mt-2">
                                 <span className="keyColorInfo me-2">
                                     <FaGlobeAmericas className="mb-1 me-1 myRedColor"/>Държава:

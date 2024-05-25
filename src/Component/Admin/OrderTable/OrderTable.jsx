@@ -20,6 +20,9 @@ function OrderTable() {
     useEffect(() => {
         const fetchData = async () => {
             const data = await getAllOrderData();
+            console.log(data)
+
+
             setOrderData(data)
             setFilteredOrders(data);
             setIsDataLoading(false)
@@ -97,24 +100,6 @@ function OrderTable() {
         }
     };
 
-    const handleCourierChange = (courier) => {
-        if (courier === 'All') {
-            setFilteredOrders(orderData);
-        } else {
-            const filteredData = orderData.filter(order => order.courier === courier);
-            setFilteredOrders(filteredData);
-        }
-    };
-
-    const handleDeliveryChange = (delivery) => {
-        if (delivery === 'All') {
-            setFilteredOrders(orderData);
-        } else {
-            const filteredData = orderData.filter(order => order.delivery === delivery);
-            setFilteredOrders(filteredData);
-        }
-    };
-
     function formatDate(dateString) {
         const date = new Date(dateString);
         const day = date.getDate();
@@ -158,7 +143,7 @@ function OrderTable() {
                     </div>
 
                     <Dropdown>
-                        <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                        <Dropdown.Toggle variant="dark" id="dropdown-basic" className="fw-bold fs-4">
                             Order By
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
@@ -184,44 +169,7 @@ function OrderTable() {
                     </Dropdown>
 
                     <Dropdown>
-                        <Dropdown.Toggle variant="dark" id="dropdown-basic">
-                            Courier
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => handleCourierChange("All")}>
-                                All
-                            </Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleCourierChange("SPEEDY")}>
-                                Speedy
-                            </Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleCourierChange("ECONT")}>
-                                Econt
-                            </Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleCourierChange("SAMEDAY")}>
-                                Sameday
-                            </Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
-
-                    <Dropdown>
-                        <Dropdown.Toggle variant="dark" id="dropdown-basic">
-                            Delivery
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => handleDeliveryChange("All")}>
-                                All
-                            </Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleDeliveryChange("ADDRESS")}>
-                                Address
-                            </Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleDeliveryChange("OFFICE")}>
-                                Office
-                            </Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
-
-                    <Dropdown>
-                        <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                        <Dropdown.Toggle variant="dark" id="dropdown-basic" className="fw-bold fs-4">
                             Status
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
@@ -253,12 +201,10 @@ function OrderTable() {
                         <tr>
                             <th>#</th>
                             <th>Date</th>
-                            <th>Courier</th>
-                            <th>Delivery Type</th>
                             <th>Total Weight</th>
                             <th>Products</th>
                             <th>Customer pay</th>
-                            <th>Admin pay</th>
+                            <th>Company pay</th>
                             <th>Profit</th>
                             <th>Status</th>
                             <th>Details</th>
@@ -269,8 +215,6 @@ function OrderTable() {
                             <tr className={index % 2 === 0 ? "even" : "odd"} key={index}>
                                 <td className="align-content-center">{order.randomNumber}</td>
                                 <td className="align-content-center">{formatDate(order.date)}</td>
-                                <td className="align-content-center">{order.courier}</td>
-                                <td className="align-content-center">{order.delivery}</td>
                                 <td className="align-content-center">{order.totalWeight.toFixed(3)} kg</td>
                                 <td className="align-content-center">{order.productOrders.length}</td>
                                 <td className="align-content-center">{order.amountToBePayedByCustomer.toFixed(2)} BGN</td>

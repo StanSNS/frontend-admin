@@ -95,3 +95,11 @@ export const allExecute = () => {
         throw error;
     });
 };
+
+export const createOrderInSpeedy = (selectedOrder) => {
+    return axios.post(BACKEND_BASE_URL + "/admin/create-order-speedy", selectedOrder).then((response) => {
+        return response;
+    }).catch((error) => {
+        throw error;
+    });
+};
