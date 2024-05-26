@@ -206,6 +206,7 @@ function OrderTable() {
                             <th>Customer pay</th>
                             <th>Company pay</th>
                             <th>Profit</th>
+                            <th>Speedy ID</th>
                             <th>Status</th>
                             <th>Details</th>
                         </tr>
@@ -220,6 +221,7 @@ function OrderTable() {
                                 <td className="align-content-center">{order.amountToBePayedByCustomer.toFixed(2)} BGN</td>
                                 <td className="align-content-center">{order.amountToBePayedByAdmin.toFixed(2)} BGN</td>
                                 <td className="align-content-center">{order.companyProfit.toFixed(2)} BGN</td>
+                                <td className="align-content-center">{order?.speedyDeliveryId}</td>
                                 <td className="align-content-center">
                                     <Button
                                         className={`${getStatusColor(order.orderStatus)}`}
