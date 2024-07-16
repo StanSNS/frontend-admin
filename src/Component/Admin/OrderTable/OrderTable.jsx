@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "./OrderTable.css"
 import {Button, Dropdown} from "react-bootstrap";
 import {FaUserAlt} from "react-icons/fa";
-import Loader from "../../STATIC/Loader/Loader";
+import Loader from "../../STATIC/Loader";
 import CurrentOrderModal from "../CurrentOrderModal/CurrentOrderModal";
 import StatusModal from "../StatusModal/StatusModa";
 import SearchInput from "../../SearchInput/SearchInput";

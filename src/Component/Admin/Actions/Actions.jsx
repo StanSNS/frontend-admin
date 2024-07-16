@@ -3,7 +3,7 @@ import './Actions.css'
 
 import Modal from "react-bootstrap/Modal";
 import {FaCheckCircle, FaTimesCircle} from "react-icons/fa";
-import Loader from "../../STATIC/Loader/Loader";
+import Loader from "../../STATIC/Loader";
 import {
     allExecute,
     brandTasteExecution,
@@ -44,7 +44,7 @@ function Actions() {
             {isLoading && <Loader/>}
 
             <div className="actionsContainer">
-                <h1>Database Scripts executioners</h1>
+                <h1>Database Scripts Executioners</h1>
 
                 <div className="executeButtons">
                     <button

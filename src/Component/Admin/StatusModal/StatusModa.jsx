@@ -3,7 +3,7 @@ import {Button, Modal} from "react-bootstrap";
 import {FaGear} from "react-icons/fa6";
 import './StatusModa.css'
 import {modifyOrderStatus} from "../../../Service/AdminService";
-import Loader from "../../STATIC/Loader/Loader";
+import Loader from "../../STATIC/Loader";
 
 function StatusModal({show, onHide, selectedOrder}) {
     const [isDataLoading, setIsDataLoading] = useState(false);
