@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './AboutData.css';
 
 import Modal from "react-bootstrap/Modal";
-import { FaCheckCircle, FaLock, FaUnlock, FaTimesCircle } from "react-icons/fa";
+import {FaCheckCircle, FaLock, FaUnlock, FaTimesCircle} from "react-icons/fa";
 import Loader from "../../STATIC/Loader";
-import { getAboutData } from "../../../Service/AboutData";
-import { Button } from "react-bootstrap";
+import {changeAboutData, getAboutData} from "../../../Service/AboutData";
+import {Button} from "react-bootstrap";
+import {useNavigate} from "react-router-dom";
+import {IoSend} from "react-icons/io5";
+import {createOrderInSpeedy} from "../../../Service/AdminService";
 
 function AboutData() {
+    const [confirmationModalVisible, setConfirmationModalVisible] = useState(false);
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [successModalVisible, setSuccessModalVisible] = useState(false);
     const [failModalVisible, setFailModalVisible] = useState(false);
-    const [aboutData, setAboutData] = useState({});
     const [inputValues, setInputValues] = useState({});
     const [fieldsLocked, setFieldsLocked] = useState({
         savedMoney: true,
@@ -20,9 +24,26 @@ function AboutData() {
         deliveredProducts: true,
     });
 
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true);
+            try {
+                const data = await getAboutData();
+                setInputValues(data);
+            } catch (error) {
+                navigate("/internal-server-error");
+                console.error('Error fetching about data:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchData();
+    }, [navigate]);
+
     const closeModal = () => {
         setSuccessModalVisible(false);
         setFailModalVisible(false);
+        setConfirmationModalVisible(false);
     };
 
     const toggleFieldLock = (field) => {
@@ -43,26 +64,29 @@ function AboutData() {
         });
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-            try {
-                const data = await getAboutData();
-                setAboutData(data);
-                setInputValues(data); // Initialize input values with fetched data
-            } catch (error) {
-                navigator("/internal-server-error");
-                console.error('Error fetching about data:');
-            } finally {
-                setIsLoading(false);
+    const handleSubmitClick = () => {
+        setConfirmationModalVisible(true);
+    };
+
+    const handleConfirmSubmit = async () => {
+        try {
+            setIsLoading(true)
+            const response = await changeAboutData(inputValues);
+            if (response.status === 200) {
+                setSuccessModalVisible(true)
             }
-        };
-        fetchData();
-    }, [navigator]);
+        } catch (err) {
+            console.error(err);
+            navigate("/internal-server-error");
+        } finally {
+            setIsLoading(false)
+        }
+        setConfirmationModalVisible(false);
+    };
 
     return (
         <>
-            {isLoading && <Loader />}
+            {isLoading && <Loader/>}
 
             <div className="aboutDataContainer">
                 <h1>About Data Values</h1>
@@ -83,17 +107,37 @@ function AboutData() {
                                 className="ms-1"
                                 onClick={() => toggleFieldLock(key)}
                             >
-                                {fieldsLocked[key] ? <FaLock /> : <FaUnlock />}
+                                {fieldsLocked[key] ? <FaLock/> : <FaUnlock/>}
                             </Button>
                         </div>
                     ))}
                 </div>
+                <Button
+                    variant={"success"}
+                    className="mt-3 fw-bold"
+                    onClick={handleSubmitClick}
+                >
+                    Submit
+                    <IoSend className="ms-2 mb-1"/>
+                </Button>
+
             </div>
+
+            <Modal show={confirmationModalVisible} onHide={closeModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirm Submission</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="text-center fw-bolder fs-4">Are you sure you want to submit ?</Modal.Body>
+                <Modal.Footer className="d-flex justify-content-center">
+                    <Button variant="danger" onClick={closeModal}>No</Button>
+                    <Button variant="primary" onClick={handleConfirmSubmit}>Yes</Button>
+                </Modal.Footer>
+            </Modal>
 
             <Modal show={successModalVisible} onHide={closeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        <FaCheckCircle className="mb-1 me-2 successColor" />
+                        <FaCheckCircle className="mb-1 me-2 successColor"/>
                         Success!
                     </Modal.Title>
                 </Modal.Header>
@@ -103,7 +147,7 @@ function AboutData() {
             <Modal show={failModalVisible} onHide={closeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        <FaTimesCircle className="mb-1 me-2 errorColor" />
+                        <FaTimesCircle className="mb-1 me-2 errorColor"/>
                         Error!
                     </Modal.Title>
                 </Modal.Header>

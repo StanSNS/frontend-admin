@@ -30,10 +30,11 @@
 .inputBox span {
     position: absolute;
     left: 0;
+    font-weight: 600;
     font-size: 0.7em;
     transform: translateX(14px) translateY(-7.5px);
     padding: 0 6px 1px 5px;
-    border-radius: 2px;
+    border-radius: 5px;
     background: #212121;
     letter-spacing: 1px;
     border: 1px solid #e8e8e8;
@@ -47,6 +48,7 @@
 }
 
 .aboutDataInputFields {
+    margin-top: 1.5rem;
     width: 100%;
     display: flex;
     align-items: center;
