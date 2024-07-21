@@ -61,7 +61,7 @@ function CurrentOrderModal({show, onHide, selectedOrder}) {
                     <Button variant={"dark"}
                             className="fs-5 fw-bold"
                             onClick={() => createOrderInSpeedyFunc()}
-                            disabled={selectedOrder?.orderStatus !== 'PENDING'}
+                            disabled={selectedOrder?.orderStatus !== 'APPROVED'}
                     >
                         Create order in speedy
                     </Button>
