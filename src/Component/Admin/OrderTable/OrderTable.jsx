@@ -135,7 +135,7 @@ function OrderTable() {
                             searchQuery={searchQuery}
                             handleSearchChange={handleSearchChange}
                             clearSearch={clearSearch}
-                            placeHolder="Search by order ID"
+                            placeHolder="Search by ID"
                             myWidth={"100%"}
                             customClass="searchInputCustomClass"
                             buttonCustomClass="buttonCustomClass"

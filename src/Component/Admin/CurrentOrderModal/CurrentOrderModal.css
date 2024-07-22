@@ -1,0 +1,41 @@
+.orderInfo {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.orderInfo .orderUserInfo, .orderAddressInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 991px) {
+    .modal-dialog {
+        margin-right: 1rem !important;
+        margin-left: 1rem !important;
+        max-width: 100% !important;
+    }
+}
+
+@media (max-width: 700px) {
+    .orderInfo {
+        flex-direction: column;
+    }
+
+    .orderInfo .orderUserInfo .fw-bolder {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 12px;
+    }
+
+    .orderInfo .orderAddressInfo .fw-bolder {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 12px;
+    }
+}
+
+@media (max-width: 400px) {
+    .modal-header {
+    flex-direction: column
+    }
+}

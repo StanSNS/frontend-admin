@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Dropdown} from "react-bootstrap";
-import SearchInput from "../../SearchInput/SearchInput";
+import SearchInput from "../../../SearchInput/SearchInput";
 
 function CurrentOrderProductTable({order}) {
     const [searchQuery, setSearchQuery] = useState('');

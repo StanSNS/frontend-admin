@@ -8,7 +8,6 @@ import {changeAboutData, getAboutData} from "../../../Service/AboutData";
 import {Button} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import {IoSend} from "react-icons/io5";
-import {createOrderInSpeedy} from "../../../Service/AdminService";
 
 function AboutData() {
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(false);

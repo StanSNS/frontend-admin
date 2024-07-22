@@ -1,11 +1,12 @@
 import React, {useState} from "react";
 import {Button, Modal} from "react-bootstrap";
-import CurrentOrderProductTable from "./CurrentOrderProductTable";
+import CurrentOrderProductTable from "./CurrentOrderProductTable/CurrentOrderProductTable";
 import {FaCity, FaEnvelope, FaGlobeAmericas, FaUser} from "react-icons/fa";
 import {FaPhoneVolume} from "react-icons/fa6";
 import {IoIosPin} from "react-icons/io";
 import {createOrderInSpeedy} from "../../../Service/AdminService";
 import Loader from "../../STATIC/Loader";
+import "./CurrentOrderModal.css"
 
 function CurrentOrderModal({show, onHide, selectedOrder}) {
     const [isLoading, setIsLoading] = useState(false);

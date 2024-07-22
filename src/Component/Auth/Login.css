@@ -10,7 +10,7 @@
 .loginCard {
     display: flex;
     flex-direction: column;
-    width: 20%;
+    width: 90%;
     height: 200px;
     justify-content: space-evenly;
 }

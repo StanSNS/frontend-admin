@@ -83,16 +83,6 @@
     width: 40%;
 }
 
-.orderInfo {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.orderInfo .orderUserInfo, .orderAddressInfo {
-    display: flex;
-    flex-direction: column;
-}
-
 .statusButton {
     width: 140px;
 }
@@ -120,3 +110,33 @@
 .returned {
     color: orange !important;
 }
+
+@media (max-width: 1250px) {
+    .table-container h2 {
+        font-size: 2.5vw;
+    }
+
+    .table-container .dropdown #dropdown-basic{
+        font-size: 2.5vw !important;
+    }
+
+    .table-container .tableSearchInputContainer .searchInputContainer .searchInput {
+        font-size: 1.5vw;
+    }
+
+    .tableWrapper{
+        font-size: 1vw;
+    }
+
+    .tableWrapper button{
+        font-size: 1vw;
+    }
+}
+
+@media (max-width: 800px) {
+       .table-container{
+           padding-left: 0.4rem !important;
+           padding-right: 0.4rem !important;
+       }
+}
+
