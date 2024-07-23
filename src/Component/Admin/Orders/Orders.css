@@ -54,7 +54,7 @@
     display: flex;
     flex-direction: column;
     border-radius: 1.5rem;
-    background-color: rgba(0, 0, 0, 1);
+    background-color: #000000FF;
     padding: 1.5rem;
     min-width: 400px;
 }
@@ -66,8 +66,8 @@
     flex-direction: column;
 }
 
-.ordersContainer .orderDetails hr{
-color: var(--myGreenBlue);
+.ordersContainer .orderDetails hr {
+    color: var(--myGreenBlue);
     opacity: 1;
     margin: 0.4rem 0 1rem;
 }
@@ -79,27 +79,27 @@ color: var(--myGreenBlue);
     margin-bottom: 0.60rem;
 }
 
-.ordersContainer .orderDetails .singleLine .customButton{
+.ordersContainer .orderDetails .singleLine .customButton {
     background-color: transparent;
     color: var(--myGreenBlue);
     border: none;
     font-size: 1.3rem;
 }
 
-.ordersContainer .orderDetails .singleLine .disabledCustomButton{
+.ordersContainer .orderDetails .singleLine .disabledCustomButton {
     background-color: transparent;
     color: #888888;
     border: none;
     font-size: 1.3rem;
 }
 
-.ordersContainer .orderDetails .singleLine .customButton svg{
+.ordersContainer .orderDetails .singleLine .customButton svg {
     margin: 0;
     margin-bottom: 0.1rem;
     margin-left: 0.2rem;
 }
 
-.ordersContainer .orderDetails .singleLine .disabledCustomButton svg{
+.ordersContainer .orderDetails .singleLine .disabledCustomButton svg {
     margin: 0;
     margin-bottom: 0.1rem;
     margin-left: 0.2rem;
@@ -174,4 +174,20 @@ color: var(--myGreenBlue);
     left: 0;
     width: 50px;
     height: 25px;
+}
+
+.disabledGenerateOrder {
+    color: #888888 !important;
+    cursor: default !important;
+}
+
+.disabledGenerateOrder:hover {
+    background-color: #212529 !important;
+    border: none !important;
+    cursor: default !important;
+    outline: none !important;
+}
+
+.disabledGenerateOrder svg {
+    color: #888888 !important;
 }

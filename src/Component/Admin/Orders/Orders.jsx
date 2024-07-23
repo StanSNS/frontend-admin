@@ -16,7 +16,12 @@ import {IoIosPin} from "react-icons/io";
 import {GiPayMoney, GiProfit, GiWeight} from "react-icons/gi";
 import {Button, Dropdown, Modal} from "react-bootstrap";
 import StatusModal from "./Modals/StatusModal/StatusModal";
-import {getAllOrderData, modifyIsUserCalled, validateAllProductsInOrder} from "../../../Service/AdminService";
+import {
+    createOrderInSpeedy,
+    getAllOrderData,
+    modifyIsUserCalled,
+    validateAllProductsInOrder
+} from "../../../Service/AdminService";
 
 function Orders() {
     const [orderData, setOrderData] = useState([]);
@@ -130,20 +135,64 @@ function Orders() {
             };
             productDetailsList.push(productDetails);
         });
-        const response = await validateAllProductsInOrder(productDetailsList);
-        console.log(response)
-
-        if (response.status === 200 || response.status === 202) {
-            setModalMessage(response.data)
-            setShowModal(true)
+        try {
+            setIsLoading(true)
+            const response = await validateAllProductsInOrder(productDetailsList);
+            if (response.status === 200 || response.status === 202) {
+                setModalMessage(response.data)
+                setShowModal(true)
+            }
+        } catch (e) {
+            console.error(e)
+        } finally {
+            setIsLoading(false)
         }
-
     };
 
     const handleCloseModalValidProducts = () => {
         setShowModal(false)
         setModalMessage('')
     }
+
+    const createOrderInSpeedyFunc = async (orderToGenerateInSpeedy) => {
+        console.log('Here')
+
+        const officeID = orderToGenerateInSpeedy.addressInfo.officeID
+        const amountToBePayedByAdmin = orderToGenerateInSpeedy.amountToBePayedByAdmin
+        const amountToBePayedByCustomer = orderToGenerateInSpeedy.amountToBePayedByCustomer
+        const randomNumber = orderToGenerateInSpeedy.randomNumber
+        const totalWeight = orderToGenerateInSpeedy.totalWeight
+        const email = orderToGenerateInSpeedy.userInfo.email
+        const firstName = orderToGenerateInSpeedy.userInfo.firstName
+        const lastName = orderToGenerateInSpeedy.userInfo.lastName
+        const phone = orderToGenerateInSpeedy.userInfo.phone
+
+        const body = {
+            officeID,
+            amountToBePayedByAdmin,
+            amountToBePayedByCustomer,
+            randomNumber,
+            totalWeight,
+            email,
+            firstName,
+            lastName,
+            phone,
+        }
+
+        console.log(body)
+
+        try {
+            setIsLoading(true)
+            const response = await createOrderInSpeedy(body)
+            if (response.status === 200) {
+                window.location.reload();
+            }
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setIsLoading(false)
+        }
+    };
 
     return (
         <>
@@ -303,7 +352,11 @@ function Orders() {
                                 <FaCheckDouble className="mb-1 me-2 myGreenBlueColor"/>
                                 Validate all products availability
                             </Button>
-                            <Button variant="dark" className="mt-2 text-center">
+                            <Button
+                                variant="dark"
+                                className={order.isUserCalled && order.orderStatus === "APPROVED" ? "mt-2 text-center" : "mt-2 text-center disabledGenerateOrder"}
+                                onClick={() => createOrderInSpeedyFunc(order)}
+                            >
                                 <FaTruckMedical className="mb-1 me-2 myGreenBlueColor"/>
                                 Generate Order in Speedy
                             </Button>
