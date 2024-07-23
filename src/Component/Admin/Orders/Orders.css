@@ -86,7 +86,20 @@ color: var(--myGreenBlue);
     font-size: 1.3rem;
 }
 
+.ordersContainer .orderDetails .singleLine .disabledCustomButton{
+    background-color: transparent;
+    color: #888888;
+    border: none;
+    font-size: 1.3rem;
+}
+
 .ordersContainer .orderDetails .singleLine .customButton svg{
+    margin: 0;
+    margin-bottom: 0.1rem;
+    margin-left: 0.2rem;
+}
+
+.ordersContainer .orderDetails .singleLine .disabledCustomButton svg{
     margin: 0;
     margin-bottom: 0.1rem;
     margin-left: 0.2rem;

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "./Orders.css"
 import Loader from "../../STATIC/Loader";
-import {FaPhoneVolume, FaSignHanging, FaTruckFront, FaTruckMedical} from "react-icons/fa6";
+import {FaCircleCheck, FaPhoneVolume, FaSignHanging, FaTruckFront, FaTruckMedical} from "react-icons/fa6";
 import {
     FaCalendarAlt, FaCheckDouble,
     FaCity,
@@ -9,12 +9,12 @@ import {
     FaExchangeAlt, FaEye,
     FaGlobeAmericas,
     FaHashtag,
-    FaShoppingCart, FaTruckLoading,
+    FaShoppingCart, FaTimesCircle, FaTruckLoading,
     FaUser
 } from "react-icons/fa";
 import {IoIosPin} from "react-icons/io";
 import {GiPayMoney, GiProfit, GiWeight} from "react-icons/gi";
-import {Button, Dropdown} from "react-bootstrap";
+import {Button, Dropdown, Modal} from "react-bootstrap";
 import StatusModal from "./Modals/StatusModal/StatusModal";
 import {getAllOrderData, modifyIsUserCalled, validateAllProductsInOrder} from "../../../Service/AdminService";
 
@@ -24,6 +24,8 @@ function Orders() {
     const [filteredOrders, setFilteredOrders] = useState(orderData);
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [showStatusModal, setShowStatusModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -111,6 +113,7 @@ function Orders() {
                 order.randomNumber === randomNumber ? {...order, isUserCalled} : order
             );
             setOrderData(updatedOrderData);
+            setFilteredOrders(updatedOrderData)
         } catch (error) {
             console.error("Failed to update isUserCalled:", error);
         }
@@ -127,12 +130,21 @@ function Orders() {
             };
             productDetailsList.push(productDetails);
         });
-        console.log(productDetailsList)
+        const response = await validateAllProductsInOrder(productDetailsList);
+        console.log(response)
 
-        const data  = await validateAllProductsInOrder(productDetailsList);
-        console.log(data)
+        if (response.status === 200 || response.status === 202) {
+            setModalMessage(response.data)
+            setShowModal(true)
+        }
 
     };
+
+    const handleCloseModalValidProducts = () => {
+        setShowModal(false)
+        setModalMessage('')
+    }
+
     return (
         <>
             {isLoading && <Loader/>}
@@ -205,12 +217,14 @@ function Orders() {
                                     <h6><FaSignHanging/>Status:</h6>
                                     <span className={`${getStatusColor(order.orderStatus)}`}>{order.orderStatus}</span>
                                     <button
-                                        className="customButton"
+                                        disabled={!order.isUserCalled}
+                                        className={!order.isUserCalled ? "disabledCustomButton" : "customButton"}
                                         onClick={() => {
                                             setShowStatusModal(true);
                                             setSelectedOrder(order);
                                         }}>
-                                        <FaExchangeAlt/></button>
+                                        <FaExchangeAlt/>
+                                    </button>
                                 </div>
                                 <div className="singleLine">
                                     <h6><FaCalendarAlt/>Date:</h6>
@@ -285,7 +299,6 @@ function Orders() {
                                 onClick={() => {
                                     handleValidateAllProductsInCart(order.productOrders)
                                 }}
-
                             >
                                 <FaCheckDouble className="mb-1 me-2 myGreenBlueColor"/>
                                 Validate all products availability
@@ -304,6 +317,30 @@ function Orders() {
                 onHide={() => setShowStatusModal(false)}
                 selectedOrder={selectedOrder}
             />
+
+            <Modal show={showModal} onHide={handleCloseModalValidProducts}>
+                {modalMessage && modalMessage === 'All passed' && (
+                    <>
+                        <Modal.Header>
+                            <Modal.Title><FaCircleCheck className="mb-1 me-2 myGreenBlueColor"/>Success</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body className="text-center fw-bolder">
+                            {modalMessage}
+                        </Modal.Body>
+                    </>
+                )}
+
+                {modalMessage && modalMessage !== 'All passed' && (
+                    <>
+                        <Modal.Header>
+                            <Modal.Title><FaTimesCircle className="myRedColor mb-2 me-2"/>Fail</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body className="text-center fw-bolder">
+                            {modalMessage}
+                        </Modal.Body>
+                    </>
+                )}
+            </Modal>
         </>
     );
 }
