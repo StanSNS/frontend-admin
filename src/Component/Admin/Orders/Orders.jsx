@@ -9,7 +9,7 @@ import {
     FaExchangeAlt, FaEye,
     FaGlobeAmericas,
     FaHashtag,
-    FaShoppingCart, FaTimesCircle, FaTruckLoading,
+    FaShoppingCart, FaTimes, FaTimesCircle, FaTruckLoading,
     FaUser
 } from "react-icons/fa";
 import {IoIosPin} from "react-icons/io";
@@ -22,8 +22,10 @@ import {
     modifyIsUserCalled,
     validateAllProductsInOrder
 } from "../../../Service/AdminService";
+import SearchInput from "./SearchInput/SearchInput";
 
 function Orders() {
+    const [searchQuery, setSearchQuery] = useState('');
     const [orderData, setOrderData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [filteredOrders, setFilteredOrders] = useState(orderData);
@@ -194,11 +196,35 @@ function Orders() {
         }
     };
 
+    const handleSearchChange = (e) => {
+        const value = e.target.value;
+        setSearchQuery(value);
+        const filteredData = orderData.filter(order => order.randomNumber.toString().toLowerCase().includes(value.toLowerCase()));
+        setFilteredOrders(filteredData);
+    };
+
+    const clearSearch = () => {
+        setSearchQuery('');
+        setFilteredOrders(orderData);
+    };
+
     return (
         <>
             {isLoading && <Loader/>}
 
             <div className="ordersContainer">
+                <div className="tableSearchInputContainer">
+                    <SearchInput
+                        searchQuery={searchQuery}
+                        handleSearchChange={handleSearchChange}
+                        clearSearch={clearSearch}
+                        placeHolder="Search by ID"
+                        myWidth={"100%"}
+                        customClass="searchInputCustomClass"
+                        buttonCustomClass="buttonCustomClass"
+                    />
+                </div>
+
                 <div className="ordersTopSection">
                     <h2 className="myBlackColor">Orders</h2>
                     <Dropdown>
@@ -363,6 +389,11 @@ function Orders() {
                         </div>
                     ))}
                 </div>
+                {filteredOrders.length === 0 && (
+                    <div className="text-center fs-1 vh-100">
+                        <h1><FaTimes className="myRedColor mb-2 me-2"/>Nothing found</h1>
+                    </div>
+                )}
             </div>
 
             <StatusModal

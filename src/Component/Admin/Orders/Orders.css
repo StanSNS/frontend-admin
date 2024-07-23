@@ -45,7 +45,7 @@
 
 .ordersContainer .cards {
     display: grid;
-    grid-template-columns: repeat(4, 2fr);
+    grid-template-columns: repeat(3, 2fr);
     grid-gap: 20px;
 }
 
@@ -190,4 +190,32 @@
 
 .disabledGenerateOrder svg {
     color: #888888 !important;
+}
+
+@media (max-width: 1700px) {
+    .ordersContainer .cards {
+        grid-template-columns: repeat(2, 2fr);
+    }
+}
+
+@media (max-width: 1200px) {
+    .ordersContainer .cards {
+        grid-template-columns: repeat(1, 2fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .ordersContainer .cards {
+        grid-gap: 0;
+    }
+
+    .ordersContainer {
+        padding: 0;
+        align-items: stretch;
+    }
+
+    .ordersContainer .card {
+        margin-bottom: 1.5rem;
+    }
+
 }
