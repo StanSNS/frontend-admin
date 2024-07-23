@@ -1,12 +1,8 @@
-import React, {useEffect} from "react";
+import React from "react";
 import "./CurrentOrdersModal.css"
 import {Modal} from "react-bootstrap";
 
 function CurrentOrdersModal({show, onHide, currentProducts}) {
-    useEffect(() => {
-        console.log(currentProducts)
-    });
-
     return (
         <Modal show={show} onHide={onHide} size={"xl"}>
             <Modal.Header closeButton>

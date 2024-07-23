@@ -33,7 +33,7 @@ function Orders() {
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [showStatusModal, setShowStatusModal] = useState(false);
     const [showModal, setShowModal] = useState(false);
-    const [modalMessage, setModalMessage] = useState('');
+    const [modalMessageData, setModalMessageData] = useState('');
     const [showOrdersModal, setShowOrdersModal] = useState(false);
 
     useEffect(() => {
@@ -143,8 +143,11 @@ function Orders() {
             setIsLoading(true)
             const response = await validateAllProductsInOrder(productDetailsList);
             if (response.status === 200 || response.status === 202) {
-                setModalMessage(response.data)
-                setShowModal(true)
+                const data = response.data;
+                if (data.length >= 1) {
+                    setModalMessageData(data)
+                    setShowModal(true)
+                }
             }
         } catch (e) {
             console.error(e)
@@ -155,7 +158,7 @@ function Orders() {
 
     const handleCloseModalValidProducts = () => {
         setShowModal(false)
-        setModalMessage('')
+        setModalMessageData('')
     }
 
     const createOrderInSpeedyFunc = async (orderToGenerateInSpeedy) => {
@@ -412,24 +415,30 @@ function Orders() {
             />
 
             <Modal show={showModal} onHide={handleCloseModalValidProducts}>
-                {modalMessage && modalMessage === 'All passed' && (
+                {modalMessageData && modalMessageData.length === 1 && modalMessageData[0] === 'All passed' && (
                     <>
                         <Modal.Header>
                             <Modal.Title><FaCircleCheck className="mb-1 me-2 myGreenBlueColor"/>Success</Modal.Title>
                         </Modal.Header>
                         <Modal.Body className="text-center fw-bolder">
-                            {modalMessage}
+                            {modalMessageData}
                         </Modal.Body>
                     </>
                 )}
 
-                {modalMessage && modalMessage !== 'All passed' && (
+                {modalMessageData && modalMessageData.length >= 1 && modalMessageData[0] !== 'All passed' && (
                     <>
                         <Modal.Header>
                             <Modal.Title><FaTimesCircle className="myRedColor mb-2 me-2"/>Fail</Modal.Title>
                         </Modal.Header>
                         <Modal.Body className="text-center fw-bolder">
-                            {modalMessage}
+                            <h3>These Model ID`s are not available</h3>
+
+                            <div className="d-flex flex-column">
+                                {modalMessageData.map((message, index) => (
+                                    <span key={index}>{message}</span>
+                                ))}
+                            </div>
                         </Modal.Body>
                     </>
                 )}
