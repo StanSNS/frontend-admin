@@ -23,6 +23,7 @@ import {
     validateAllProductsInOrder
 } from "../../../Service/AdminService";
 import SearchInput from "./SearchInput/SearchInput";
+import CurrentOrdersModal from "./Modals/CurrentOrders/CurrentOrdersModal";
 
 function Orders() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -33,6 +34,7 @@ function Orders() {
     const [showStatusModal, setShowStatusModal] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
+    const [showOrdersModal, setShowOrdersModal] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -361,7 +363,14 @@ function Orders() {
                                 <div className="singleLine">
                                     <h6><FaShoppingCart/>Products count:</h6>
                                     <span>{order.productOrders.length}</span>
-                                    <button className="customButton"><FaEye/></button>
+                                    <button
+                                        className="customButton"
+                                        onClick={() => {
+                                            setShowOrdersModal(true);
+                                            setSelectedOrder(order);
+                                        }}>
+                                        <FaEye/>
+                                    </button>
                                 </div>
                                 <div className="singleLine">
                                     <h6><FaTruckFront/>Speedy ID:</h6>
@@ -425,6 +434,12 @@ function Orders() {
                     </>
                 )}
             </Modal>
+
+            <CurrentOrdersModal
+                show={showOrdersModal}
+                onHide={() => setShowOrdersModal(false)}
+                currentProducts={selectedOrder?.productOrders}
+            />
         </>
     );
 }
