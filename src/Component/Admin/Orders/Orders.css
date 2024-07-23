@@ -1,0 +1,164 @@
+.pending {
+    color: #FFD700 !important;
+}
+
+.approved {
+    color: #00CED1 !important;
+}
+
+.in-delivery {
+    color: #1E90FF !important;
+}
+
+.completed {
+    color: #00FF00 !important;
+}
+
+.canceled {
+    color: #FF6347 !important;
+}
+
+.returned {
+    color: orange !important;
+}
+
+.ordersContainer {
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: auto;
+    justify-content: space-around;
+    box-shadow: 0 10px 20px rgb(51, 51, 51);
+    border-radius: 30px;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.ordersTopSection {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+}
+
+.ordersContainer .cards {
+    display: grid;
+    grid-template-columns: repeat(4, 2fr);
+    grid-gap: 20px;
+}
+
+.ordersContainer .card {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1.5rem;
+    background-color: rgba(0, 0, 0, 1);
+    padding: 1.5rem;
+    min-width: 400px;
+}
+
+.ordersContainer .orderDetails {
+    line-height: 1;
+    color: var(--myWhite);
+    display: flex;
+    flex-direction: column;
+}
+
+.ordersContainer .orderDetails hr{
+color: var(--myGreenBlue);
+    opacity: 1;
+    margin: 0.4rem 0 1rem;
+}
+
+.ordersContainer .orderDetails .singleLine {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 0.60rem;
+}
+
+.ordersContainer .orderDetails .singleLine .customButton{
+    background-color: transparent;
+    color: var(--myGreenBlue);
+    border: none;
+    font-size: 1.3rem;
+}
+
+.ordersContainer .orderDetails .singleLine .customButton svg{
+    margin: 0;
+    margin-bottom: 0.1rem;
+    margin-left: 0.2rem;
+}
+
+.ordersContainer .orderDetails .singleLine svg {
+    margin-right: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.ordersContainer .orderDetails .singleLine h6 {
+    margin-right: 0.30rem;
+    margin-bottom: 0;
+    color: var(--myGreenBlue);
+}
+
+.ordersContainer .orderDetails .singleLine .checkbox-apple {
+    position: relative;
+    width: 50px;
+    height: 25px;
+    margin-left: 0.7rem;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.ordersContainer .orderDetails .singleLine .checkbox-apple label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 25px;
+    border-radius: 50px;
+    background: linear-gradient(to bottom, #b3b3b3, #e6e6e6);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ordersContainer .orderDetails .singleLine .checkbox-apple label:after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.ordersContainer .orderDetails .singleLine .checkbox-apple input[type="checkbox"]:checked + label {
+    background: linear-gradient(to bottom, #4cd964, #5de24e);
+}
+
+.ordersContainer .orderDetails .singleLine .checkbox-apple input[type="checkbox"]:checked + label:after {
+    transform: translateX(25px);
+}
+
+.ordersContainer .orderDetails .singleLine .checkbox-apple label:hover {
+    background: linear-gradient(to bottom, #b3b3b3, #e6e6e6);
+}
+
+.ordersContainer .orderDetails .singleLine .checkbox-apple label:hover:after {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.ordersContainer .orderDetails .singleLine .yep {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 25px;
+}

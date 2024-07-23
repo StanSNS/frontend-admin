@@ -103,3 +103,19 @@ export const createOrderInSpeedy = (selectedOrder) => {
         throw error;
     });
 };
+
+export const modifyIsUserCalled = (randomNumber, isUserCalled) => {
+    return axios.patch(BACKEND_BASE_URL + `/admin/modifyIsUserCalled?randomNumber=${randomNumber}&isUserCalled=${isUserCalled}`).then((response) => {
+        return response;
+    }).catch((error) => {
+        throw error;
+    });
+};
+
+export const validateAllProductsInOrder = (allProductsFromOrder) => {
+    return axios.patch(BACKEND_BASE_URL + "/admin/validateAllProductsAvailability", allProductsFromOrder).then((response) => {
+        return response;
+    }).catch((error) => {
+        throw error;
+    });
+};
