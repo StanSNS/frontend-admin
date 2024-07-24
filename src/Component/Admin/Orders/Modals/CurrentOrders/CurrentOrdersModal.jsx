@@ -4,7 +4,7 @@ import {Modal} from "react-bootstrap";
 
 function CurrentOrdersModal({show, onHide, currentProducts}) {
     return (
-        <Modal show={show} onHide={onHide} size={"xl"}>
+        <Modal show={show} onHide={onHide} size={"xl"} className="currentOrderModal">
             <Modal.Header closeButton>
                 <Modal.Title>
                     Products ({currentProducts?.length})
