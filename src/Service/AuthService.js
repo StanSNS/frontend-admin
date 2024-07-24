@@ -16,10 +16,10 @@ export const authenticateUser = (data) => {
     });
 };
 
-const storeToken = (token) => localStorage.setItem(AUTH_TOKEN_KEY, encryptData(token));
+const storeToken = (token) => sessionStorage.setItem(AUTH_TOKEN_KEY, encryptData(token));
 
 export const getToken = () => {
-    const authToken = localStorage.getItem(AUTH_TOKEN_KEY);
+    const authToken = sessionStorage.getItem(AUTH_TOKEN_KEY);
 
     if (authToken) {
         return decryptData(authToken)
@@ -85,7 +85,7 @@ function deleteCookie() {
 }
 
 function deleteToken() {
-    localStorage.removeItem(AUTH_TOKEN_KEY);
+    sessionStorage.removeItem(AUTH_TOKEN_KEY);
 }
 
 function deleteAdditionalData() {
