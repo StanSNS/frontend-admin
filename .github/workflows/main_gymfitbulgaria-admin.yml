@@ -1,0 +1,83 @@
+name: Azure App Service - gymfitbulgaria-admin(Production), Build and deploy NodeJS app
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  frontend-redeploy-admin:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Checkout Terraform Folder'
+        uses: actions/checkout@v2
+
+      - name: 'Login to Azure'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: "Set up Terraform"
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.3.7
+
+      - name: "Terraform Init -Main"
+        working-directory: ./infra
+        run: terraform init
+
+      - name: "Terraform Destroy Targeting Specific Resources -Main"
+        working-directory: ./infra
+        run: terraform destroy -auto-approve -target=azurerm_windows_web_app.awwafsa
+
+      - name: "Terraform Apply Targeting Specific Resources -Main"
+        working-directory: ./infra
+        run: terraform apply -auto-approve -target=azurerm_windows_web_app.awwafsa
+
+      - name: "Set up Git"
+        run: |
+          git config --global user.name "${{ secrets.WEB_APP_GITHUB_ACTION_USER_NAME}}"
+          git config --global user.email "${{ secrets.WEB_APP_GITHUB_ACTION_USER_EMAIL}}"
+
+      - name: "Commit and Push State File"
+        run: |
+          git add .
+          git commit -m "Update terraform.tfstate files after modifications"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.LOGIN_AUTH_TOKEN}}
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: npm install, build, and test
+        env:
+          CI: false
+          REACT_APP_BACKEND_URL: ${{ secrets.BACKEND_URL }}
+          REACT_APP_SUPER_SECRET_ENCRYPT_KEY: ${{ secrets.BACKEND_SECRET_ENCRYPTION_KEY }}
+          REACT_APP_AUTH_TOKEN_KEY: ${{ secrets.AUTH_TOKEN_KEY }}
+          REACT_APP_AUTH_COOKIE_NAME: ${{ secrets.COOKIE_NAME }}
+
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+        working-directory: .
+
+      - name: 'Fetch Azure Web App Publish Profile'
+        id: fetch-publish-profile
+        run: |
+          az webapp deployment list-publishing-credentials --name ${{ secrets.WEB_APP_NAME }} --resource-group ${{ secrets.WEB_APP_RESOURCE_GROUP_NAME }} --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: 'Deploy React App'
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ secrets.WEB_APP_NAME }}
+          slot-name: 'Production'
+          package: ./build
+          publish-profile: ${{ steps.fetch-publish-profile.outputs.publish_profile }}
