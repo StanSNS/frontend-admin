@@ -5,8 +5,8 @@ import {authenticateUser} from "../../Service/AuthService";
 
 function Login() {
     const [isLoginCardVisible, setIsLoginCardVisible] = useState(false);
-    const [user, setUser] = useState('admin');
-    const [password, setPassword] = useState('admin');
+    const [user, setUser] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleToggleChange = () => {
         setIsLoginCardVisible(!isLoginCardVisible);
